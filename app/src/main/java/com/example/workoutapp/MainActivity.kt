@@ -1,19 +1,26 @@
 package com.example.workoutapp
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.workoutapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val buttonLetsGo: Button = findViewById(R.id.buttonLetsGo)
-        buttonLetsGo.setOnClickListener {
-            val intent = Intent(this, WorkoutListActivity::class.java)
-            startActivity(intent)
+        // Set button click listener
+        binding.buttonLetsGo.setOnClickListener {
+            // Replace MainActivity content with WorkoutListFragment
+            supportFragmentManager.beginTransaction()
+                .replace(android.R.id.content, WorkoutListFragment())
+                .addToBackStack(null)  // Allows back navigation
+                .commit()
         }
     }
 }

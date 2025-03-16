@@ -2,17 +2,28 @@ package com.example.workoutapp
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.workoutapp.databinding.FragmentWorkoutListBinding
 
-class WorkoutListActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_workout_list)
+class WorkoutListFragment : Fragment() {
 
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewWorkouts)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+    private var _binding: FragmentWorkoutListBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentWorkoutListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val workoutCategories = listOf(
             ExerciseCategory(
@@ -48,11 +59,17 @@ class WorkoutListActivity : AppCompatActivity() {
         )
 
         val adapter = WorkoutCategoryAdapter(workoutCategories) { category ->
-            val intent = Intent(this, ExerciseCategoryActivity::class.java)
+            val intent = Intent(requireContext(), ExerciseCategoryActivity::class.java)
             intent.putExtra("CATEGORY_NAME", category.name ?: "Default Category")
             startActivity(intent)
         }
 
-        recyclerView.adapter = adapter
+        binding.recyclerViewWorkouts.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewWorkouts.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
