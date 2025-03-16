@@ -40,7 +40,7 @@ Exercise Detail Screen - Provides details about a selected exercise.
 
 - Clone the Repository:
 
-git clone https://github.com/yourusername/WorkoutApp.git
+git clone https://github.com/TienPhaam/WorkoutApp
 
 - Open the Project in Android Studio:
 
